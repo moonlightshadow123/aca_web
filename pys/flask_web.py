@@ -16,7 +16,9 @@ def processTags(tagsdata):
 
 @app.route('/updateJson', methods=["POST"])
 def updateJson():
-    tagsdata = json.loads(request.form.get('tags'))
+    tagsdata = []
+    if request.form.get('tags'):
+        tagsdata = json.loads(request.form.get('tags'))
     entrydata = request.form.get('json')
     entryid = request.form.get('id', type=int)
     print("tagsdata = {}, entrydata = {}, entryid = {}".format(tagsdata, entrydata, entryid))
@@ -39,19 +41,21 @@ def updateJson():
     tagids, new_tags = processTags(tagsdata)
     new_tagids = []
     # create Tags
-    try: 
-        new_tagids = orm.createTags(new_tags)
-    except Exception as e:
-        getTraceLog(e)
-        res["res"] = False; res["msg"] = "Create Tag Error!"
-        return jsonify(res)
+    if new_tags:
+        try: 
+            new_tagids = orm.createTags(new_tags)
+        except Exception as e:
+            getTraceLog(e)
+            res["res"] = False; res["msg"] = "Create Tag Error!"
+            return jsonify(res)
     # update ET
-    try: 
-        orm.updateETs(entryid, tagids+new_tagids)
-    except Exception as e:
-        getTraceLog(e)
-        res["res"] = False; res["msg"] = "Update EntryTags error!"
-        return jsonify(res)
+    if tagids+new_tagids:
+        try: 
+            orm.updateETs(entryid, tagids+new_tagids)
+        except Exception as e:
+            getTraceLog(e)
+            res["res"] = False; res["msg"] = "Update EntryTags error!"
+            return jsonify(res)
     res = {"res": True, "msg":"Successfully updated Entry id: {}!".format(entryid)}
     return jsonify(res)
 

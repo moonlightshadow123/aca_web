@@ -68,7 +68,7 @@ $cancel.click(function(){
 	$(this).closest(".modal").fadeOut();
 });
 
-// Codemirror
+// Codemirror addBtn
 function setCMValue(value){
 	codemirror.getDoc().setValue(value);
 	setTimeout(function() {codemirror.refresh();},1);
@@ -81,6 +81,7 @@ function getCMValue(){
 // Modal Confirm
 $formConfirm.click(function(){
 	codemirror.save();
+	console.log($mform.serialize());
 	postForm("/updateJson", $mform, (data)=>{console.log(data);});
 });
 
@@ -99,6 +100,7 @@ $dialogConfirm.click(function(event){
 
 // Modal pop up
 $addBtn.click(function(){
+	$mform.find("#hinput").attr("value", "0");
 	setCMValue("");
 	removeTags();
 	displayModal($formModal);
