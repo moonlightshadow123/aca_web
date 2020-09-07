@@ -1,5 +1,5 @@
 {
-	"port":8090,
+	"port":9200,
 	"static_dir": "../web",
 	"temp_dir": "../web/temp/",
 	"static_url": "",

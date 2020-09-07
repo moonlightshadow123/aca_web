@@ -2,7 +2,7 @@ var aca = {};
 
 aca.tags = [];
 aca.jsonUrl = "res.json";
-aca.queryUrl = "http://localhost:9200/query";
+aca.queryUrl = "/query";
 aca.cstUrl = "http://localhost:9000/json/cst.json"
 aca.jsonData;
 aca.$acaListContainer = $("#acaListContainer");
